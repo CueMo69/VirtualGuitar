@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Electric Guitar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1e1e1e;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background: #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 1em;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #f39c12;
+    }
+    .content {
+      padding: 2em;
+    }
+    .guitar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 600px;
+      margin: auto;
+    }
+    .string {
+      background: linear-gradient(90deg, #f39c12, #d35400);
+      width: 80%;
+      height: 5px;
+      margin: 10px;
+      cursor: pointer;
+      border-radius: 3px;
+      position: relative;
+    }
+    .string::after {
+      content: "";
+      position: absolute;
+      right: -20px;
+      top: -5px;
+      width: 15px;
+      height: 15px;
+      background: #555;
+      border-radius: 50%;
+    }
+    button {
+      background: #f39c12;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      margin: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: #d35400;
+    }
+    @media (max-width: 600px) {
+      .string {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#virtual">Virtual Guitar</a>
+    <a href="#cheap">Cheap Guitars</a>
+    <a href="#learn">Learn</a>
+  </nav>
+
+  <div class="content" id="virtual">
+    <h1>Virtual Electric Guitar</h1>
+    <div class="guitar">
+      <div class="string" onclick="playSound('E')"></div>
+      <div class="string" onclick="playSound('A')"></div>
+      <div class="string" onclick="playSound('D')"></div>
+      <div class="string" onclick="playSound('G')"></div>
+      <div class="string" onclick="playSound('B')"></div>
+      <div class="string" onclick="playSound('e')"></div>
+      <div class="string" onclick="playSound('power')" style="background:#e74c3c;width:50%;"></div>
+    </div>
+  </div>
+
+  <div class="content" id="cheap">
+    <h1>Cheap Guitars</h1>
+    <p>Check out affordable electric guitars for beginners: Squier Bullet Strat, Yamaha Pacifica, Epiphone Les Paul Special, and more!</p>
+  </div>
+
+  <div class="content" id="learn">
+    <h1>Learn Guitar</h1>
+    <p>Welcome to guitar learning! Start with these basics:</p>
+    <ul>
+      <li>Learn the strings: E, A, D, G, B, e</li>
+      <li>Practice basic chords: E, A, D, G, C, Am, Em</li>
+      <li>Use a metronome to keep time</li>
+      <li>Play simple songs: "Smoke on the Water," "Seven Nation Army"</li>
+    </ul>
+    <button onclick="alert('Tip: Practice 10 minutes daily!')">Practice Tip</button>
+    <div>
+      <h3>Video Lessons</h3>
+      <iframe width="300" height="200" src="https://www.youtube.com/embed/2Lz4M8J6V0k" frameborder="0" allowfullscreen></iframe>
+      <iframe width="300" height="200" src="https://www.youtube.com/embed/0I0FZz7-cbc" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <script>
+    const sounds = {
+      E: new Audio('./so
