@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Electric Guitar Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Roboto', sans-serif; background: #0a0a0a; color: #fff; margin: 0; padding: 0; }
+    nav { background: #111; display: flex; justify-content: space-around; padding: 1em; }
+    nav a { color: #f39c12; text-decoration: none; font-weight: bold; transition: color 0.3s; }
+    nav a:hover { color: #fff; }
+    .content { padding: 2em; display: none; }
+    .active { display: block; }
+    .guitar-container { text-align: center; }
+    .guitar-img { max-width: 100%; height: auto; }
+    .string { cursor: pointer; margin: 5px; }
+    .dropdown { margin: 1em; padding: 0.5em; }
+    .chord, .song, .tip { margin: 1em 0; padding: 1em; background: #222; border-radius: 8px; }
+    input { padding: 0.5em; width: 80%; margin: 1em auto; display: block; border-radius: 5px; border: none; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#" onclick="showSection('virtual')">Virtual Guitar</a>
+    <a href="#" onclick="showSection('learn')">Learn</a>
+    <a href="#" onclick="showSection('songs')">Songs</a>
+  </nav>
+
+  <div class="content active" id="virtual">
+    <h1>Virtual Electric Guitar Pro</h1>
+    <select class="dropdown" onchange="changeGuitar(this.value)">
+      <option value="strat">Stratocaster</option>
+      <option value="v">Flying V</option>
+      <option value="lespaul">Les Paul</option>
+    </select>
+    <div class="guitar-container">
+      <img id="guitarImage" class="guitar-img" src="./images/strat.png" alt="Electric Guitar">
+      <div>
+        <button class="string" onclick="playSound('E')">E</button>
+        <button class="string" onclick="playSound('A')">A</button>
+        <button class="string" onclick="playSound('D')">D</button>
+        <button class="string" onclick="playSound('G')">G</button>
+        <button class="string" onclick="playSound('B')">B</button>
+        <button class="string" onclick="playSound('e')">e</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="content" id="learn">
+    <h1>Learn Guitar</h1>
+    <div class="chord"><strong>Chords:</strong> E, A, D, G, C, Am, Em</div>
+    <div class="tip">Tip: Practice chord transitions slowly, then speed up!</div>
+    <div class="tip">Tip: Use a metronome to improve timing.</div>
+    <iframe width="300" height="200" src="https://www.youtube.com/embed/2Lz4M8J6V0k" allowfullscreen></iframe>
+    <iframe width="300" height="200" src="https://www.youtube.com/embed/0I0FZz7-cbc" allowfullscreen></iframe>
+  </div>
+
+  <div class="content" id="songs">
+    <h1>Song Tabs</h1>
+    <input type="text" id="songSearch" onkeyup="searchSongs()" placeholder="Search for a song...">
+    <div id="songList">
+      <div class="song" onclick="showTab('Seven Nation Army')">Seven Nation Army</div>
+      <div class="song" onclick="showTab('Smoke on the Water')">Smoke on the Water</div>
+      <div class="song" onclick="showTab('Sweet Child O Mine')">Sweet Child O' Mine</div>
+    </div>
+    <div id="tabDisplay"></div>
+  </div>
+
+  <script>
+    const sounds = {
+      E: new Audio('./sounds/E.mp3'),
+      A: new Audio('./sounds/A.mp3'),
+      D: new Audio('./sounds/D.mp3'),
+      G: new Audio('./sounds/G.mp3'),
+      B: new Audio('./sounds/B.mp3'),
+      e: new Audio('./sounds/e.mp3'),
+    };
+
+    function playSound(string) {
+      if (sounds[string]) {
+        sounds[string].currentTime = 0;
+        sounds[string].play();
+      }
+    }
+
+    function changeGuitar(type) {
+      const image = document.getElementById('guitarImage');
+      image.src = `./images/${type}.png`;
+    }
+
+    function showSection(id) {
+      document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function searchSongs() {
+      const input = document.getElementById('songSearch').value.toLowerCase();
+      document.querySelectorAll('.song').forEach(song => {
+        song.style.display = song.textContent.toLowerCase().includes(input) ? 'block' : 'none';
+      });
+    }
+
+    function showTab(song) {
+      const tabs = {
+        'Seven Nation Army': 'E|----------------|
+A|--7--7--10--7--|',
+        'Smoke on the Water': 'E|--0--3--5--|
+A|--0--3--6--5--|',
+        'Sweet Child O Mine': 'e|--15--14--|
+B|--15--14--|',
+      };
+      document.getElementById('tabDisplay').textContent = tabs[song] || 'Tab not found.';
+    }
+  </script>
+</body>
+</html>
