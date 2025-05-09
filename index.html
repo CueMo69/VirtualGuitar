@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Guitar Ultimate</title>
+  <style>
+    body { background: #121212; color: #f0f0f0; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    nav { background: #1f1f1f; display: flex; justify-content: space-around; padding: 1em; }
+    nav a { color: #f39c12; text-decoration: none; font-weight: bold; transition: 0.3s; }
+    nav a:hover { color: #fff; }
+    .content { display: none; padding: 2em; }
+    .active { display: block; }
+    .guitar { width: 300px; height: 600px; margin: 20px auto; background: linear-gradient(45deg, #333, #111); border-radius: 20px; box-shadow: 0 0 30px #f39c12; position: relative; }
+    .string { width: 2px; height: 500px; background: #ccc; position: absolute; top: 50px; cursor: pointer; transition: 0.1s; }
+    .string:hover { background: #f39c12; transform: scaleX(1.5); }
+    .s1 { left: 50px; } .s2 { left: 90px; } .s3 { left: 130px; } .s4 { left: 170px; } .s5 { left: 210px; } .s6 { left: 250px; }
+    input { padding: 0.5em; width: 80%; margin: 1em auto; display: block; border-radius: 5px; border: none; }
+    .song, .tip { margin: 0.5em 0; padding: 0.5em; background: #1f1f1f; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#" onclick="showSection('virtual')">Virtual Guitar</a>
+    <a href="#" onclick="showSection('learn')">Learn</a>
+    <a href="#" onclick="showSection('songs')">Songs</a>
+  </nav>
+
+  <div class="content active" id="virtual">
+    <h1>Virtual Guitar Ultimate</h1>
+    <div class="guitar">
+      <div class="string s1" onclick="playSound('E')"></div>
+      <div class="string s2" onclick="playSound('A')"></div>
+      <div class="string s3" onclick="playSound('D')"></div>
+      <div class="string s4" onclick="playSound('G')"></div>
+      <div class="string s5" onclick="playSound('B')"></div>
+      <div class="string s6" onclick="playSound('e')"></div>
+    </div>
+  </div>
+
+  <div class="content" id="learn">
+    <h1>Learn Guitar</h1>
+    <div id="tips"></div>
+  </div>
+
+  <div class="content" id="songs">
+    <h1>Song Tabs</h1>
+    <input type="text" id="songSearch" onkeyup="searchSongs()" placeholder="Search songs...">
+    <div id="songList"></div>
+    <pre id="tabDisplay"></pre>
+  </div>
+
+  <script>
+    const tips = [
+      'Practice every day for at least 15 minutes.',
+      'Start slow, then build speed.',
+      'Learn major and minor chords.',
+      'Use a metronome to improve timing.',
+      'Keep your fingers close to the fretboard.',
+      'Practice scales: pentatonic, major, minor.',
+      'Alternate picking is key for speed.',
+      'Record yourself to track progress.',
+      'Learn songs you love to stay motivated.',
+      'Warm up before long practice sessions.',
+      'Change strings regularly.',
+      'Learn to read tabs and chord charts.',
+      'Experiment with effects like distortion.',
+      'Practice palm muting for rock and metal.',
+      'Play along with backing tracks.',
+      'Master barre chords early.',
+      'Develop good posture and hand position.',
+      'Use light gauge strings if you’re a beginner.',
+      'Learn the notes on the fretboard.',
+      'Practice hammer-ons and pull-offs.'
+    ];
+    const songs = {
+      "Seven Nation Army": "E|----------------|
+A|--7--7--10--7--|",
+      "Smoke on the Water": "E|--0--3--5--|
+A|--0--3--6--5--|",
+      "Sweet Child O Mine": "e|--15--14--|
+B|--15--14--|",
+      "Back in Black": "E|--0--2--3--|
+A|--2--0--|
+D|--2--0--|",
+      "Enter Sandman": "E|--0--7--5--|
+A|--7--5--0--|",
+      "Wonderwall": "E|--3--3--|
+A|--2--0--|",
+      "Thunderstruck": "E|--0--4--5--|
+B|--0--5--7--|",
+      "Boulevard of Broken Dreams": "E|--0--3--5--|
+A|--3--5--7--|"
+    };
+
+    const sounds = {
+      E: new Audio('./sounds/E.mp3'),
+      A: new Audio('./sounds/A.mp3'),
+      D: new Audio('./sounds/D.mp3'),
+      G: new Audio('./sounds/G.mp3'),
+      B: new Audio('./sounds/B.mp3'),
+      e: new Audio('./sounds/e.mp3')
+    };
+
+    function playSound(string) {
+      if (sounds[string]) {
+        sounds[string].currentTime = 0;
+        sounds[string].play();
+      }
+    }
+
+    function showSection(id) {
+      document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      if (id === 'learn') loadTips();
+      if (id === 'songs') loadSongs();
+    }
+
+    function loadTips() {
+      document.getElementById('tips').innerHTML = tips.map(t => `<div class="tip">${t}</div>`).join('');
+    }
+
+    function loadSongs() {
+      document.getElementById('songList').innerHTML = Object.keys(songs)
+        .map(song => `<div class="song" onclick="showTab('${song}')">${song}</div>`).join('');
+    }
+
+    function showTab(song) {
+      document.getElementById('tabDisplay').textContent = songs[song];
+    }
+
+    function searchSongs() {
+      const input = document.getElementById('songSearch').value.toLowerCase();
+      document.querySelectorAll('.song').forEach(song => {
+        song.style.display = song.textContent.toLowerCase().includes(input) ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
