@@ -44,6 +44,7 @@
       cursor: pointer;
       border-radius: 3px;
       position: relative;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
     .string::after {
       content: "";
@@ -63,6 +64,7 @@
       margin: 5px;
       cursor: pointer;
       border-radius: 5px;
+      transition: background 0.3s;
     }
     button:hover {
       background: #d35400;
@@ -118,4 +120,21 @@
 
   <script>
     const sounds = {
-      E: new Audio('./so
+      E: new Audio('./sounds/E.mp3'),
+      A: new Audio('./sounds/A.mp3'),
+      D: new Audio('./sounds/D.mp3'),
+      G: new Audio('./sounds/G.mp3'),
+      B: new Audio('./sounds/B.mp3'),
+      e: new Audio('./sounds/e.mp3'),
+      power: new Audio('./sounds/power.mp3')
+    };
+
+    function playSound(string) {
+      if (sounds[string]) {
+        sounds[string].currentTime = 0;
+        sounds[string].play();
+      }
+    }
+  </script>
+</body>
+</html>
